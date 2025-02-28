@@ -2,7 +2,7 @@ import os
 
 import click
 
-from src.csv import CsvGetter
+from src.csv_getter import CsvGetter
 
 
 @click.command()

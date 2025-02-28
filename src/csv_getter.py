@@ -13,7 +13,7 @@ class CsvGetter:
     """Helper class for CSV files."""
 
     def __init__(
-            self, in_file_path: os.PathLike, out_file_path: Optional[os.PathLike] = None, sep: Optional[str] = ","):
+            self, in_file_path: str, out_file_path: Optional[str] = None, sep: Optional[str] = ","):
         """
             Initializes the CsvGetter.
             :param in_file_path: The path to the input file.

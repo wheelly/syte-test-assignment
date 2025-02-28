@@ -1,6 +1,6 @@
 import os
 
-from src.csv import CsvGetter
+from src.csv_getter import CsvGetter
 
 
 def convert_tsv_to_csv(file_path: os.PathLike) -> None:
