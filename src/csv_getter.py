@@ -1,5 +1,6 @@
 import logging
 import os
+import pathlib
 from traceback import TracebackException
 from types import TracebackType
 from typing import Optional
@@ -21,7 +22,7 @@ class CsvGetter:
             :param sep: The separator for the CSV/TSV file. Default is CSV
         """
         self.in_file_path = in_file_path
-        self.out_file_path = out_file_path if out_file_path else os.fspath(self.in_file_path).with_suffix(".csv")
+        self.out_file_path = out_file_path if out_file_path else pathlib.Path(self.in_file_path).with_suffix(".csv")
         self.sep = sep
 
     def __enter__(self) -> pd.DataFrame:
