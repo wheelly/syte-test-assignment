@@ -32,8 +32,8 @@ def remove_rows_by_regex(
         not_re = re.compile(pattern_not, re.IGNORECASE)
 
         # Apply regex search across all columns
-        mask_eq = df.applymap(lambda x: bool(eq_re.search(str(x))) if pd.notnull(x) else False)
-        mask_not = df.applymap(lambda x: bool(not_re.search(str(x))) if pd.notnull(x) else False)
+        mask_eq = df.map(lambda x: bool(eq_re.search(str(x))) if pd.notnull(x) else False)
+        mask_not = df.map(lambda x: bool(not_re.search(str(x))) if pd.notnull(x) else False)
 
         # Create a boolean mask for rows to keep
         mask = ~(mask_eq.any(axis=1) & ~mask_not.any(axis=1))

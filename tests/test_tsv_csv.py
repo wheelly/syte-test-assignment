@@ -2,7 +2,7 @@ import os
 
 import pandas as pd
 
-from src.converter import convert_tsv_to_csv
+from converter import convert_tsv_to_csv
 
 
 def test_convert_tsv_to_csv(temp_tsv_file: str):

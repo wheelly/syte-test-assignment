@@ -1,4 +1,4 @@
-from src.csv_getter import CsvGetter
+from csv_getter import CsvGetter
 
 
 def convert_tsv_to_csv(file_path: str) -> None:
