@@ -1,4 +1,5 @@
 import re
+from typing import Optional
 
 import click
 import pandas as pd
@@ -24,12 +25,12 @@ def remove_rows_by_regex(
     infile: str,
     out: str,
     pattern_eq: str,
-    pattern_not: str
+    pattern_not: str,
+    sep: Optional[str] = ","
 ) -> pd.DataFrame:
     """Removes rows from a CSV file that match a pattern and do not match another pattern."""
 
-    getter = CsvGetter(in_file_path=infile, out_file_path=out)
-    with getter as df:
+    with CsvGetter(in_file_path=infile, out_file_path=out, sep=sep) as df:
         eq_re = re.compile(pattern_eq, re.IGNORECASE)
         not_re = re.compile(pattern_not, re.IGNORECASE)
 
@@ -40,11 +41,13 @@ def remove_rows_by_regex(
         # Create a boolean mask for rows to keep
         mask = ~(mask_eq.any(axis=1) & ~mask_not.any(axis=1))
 
-        # Apply the mask and reset the index
-        new_df = df[mask].reset_index(drop=True)
-        # now it's a new ref so must save it to the instance
-        getter.df = new_df
-        return new_df
+        # Drop rows by mask in place
+        df.drop(index=df[~mask].index, inplace=True)
+        # Reset index in place
+        df.reset_index(drop=True, inplace=True)
+        # Everything must be inplace since we are in a context manager and this is the only way to save the changes
+        # if we use new ref to df, it will not be saved into the file since CsvGetter.df will hold the old ref
+        return df
 
 
 if __name__ == "__main__":

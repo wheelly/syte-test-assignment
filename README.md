@@ -23,7 +23,14 @@ This project provides a set of tools for processing CSV and TSV files, including
    cd syte-test-assignment
    ```
 
-2. Install the required dependencies:
+2. Create and activate a virtual environment:
+
+   ```sh
+   python -m venv venv
+   source venv/bin/activate
+   ```
+
+3. Install the required dependencies:
    ```sh
    pip install -r requirements.txt
    ```
