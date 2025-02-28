@@ -25,10 +25,11 @@ def transform_csv_task(
     column_target: str
 ) -> pd.DataFrame:
     """Adds a new column to a CSV file from the old one."""
-    with CsvGetter(in_file_path=infile, out_file_path=out, sep="\t") as df:
+    with CsvGetter(in_file_path=infile, out_file_path=out) as df:
         if column_source not in df.columns:
             raise ValueError(f"Column {column_source} not found in the file")
         df[column_target] = df[column_source].astype(float)
+        # the same ref changed inside so return the same address
         return df
 
 

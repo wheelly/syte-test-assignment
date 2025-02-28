@@ -27,7 +27,9 @@ def remove_rows_by_regex(
     pattern_not: str
 ) -> pd.DataFrame:
     """Removes rows from a CSV file that match a pattern and do not match another pattern."""
-    with CsvGetter(in_file_path=infile, out_file_path=out) as df:
+
+    getter = CsvGetter(in_file_path=infile, out_file_path=out)
+    with getter as df:
         eq_re = re.compile(pattern_eq, re.IGNORECASE)
         not_re = re.compile(pattern_not, re.IGNORECASE)
 
@@ -39,8 +41,10 @@ def remove_rows_by_regex(
         mask = ~(mask_eq.any(axis=1) & ~mask_not.any(axis=1))
 
         # Apply the mask and reset the index
-        df = df[mask].reset_index(drop=True)
-        return df
+        new_df = df[mask].reset_index(drop=True)
+        # now it a new ref must save it to the instance
+        getter.df = new_df
+        return new_df
 
 
 if __name__ == "__main__":

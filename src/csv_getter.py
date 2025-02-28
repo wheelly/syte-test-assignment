@@ -28,6 +28,7 @@ class CsvGetter:
     def __enter__(self) -> pd.DataFrame:
         """Enters the context manager and reads cvs/tsv file into PandaFrame."""
         self.df = pd.read_csv(self.in_file_path, sep=self.sep)
+        logger.info(f"Opening CSV file, records: {len(self.df)}")
         return self.df
 
     def __exit__(self, exc_type: BaseException, exc_value: TracebackException, exc_traceback: TracebackType):
@@ -35,5 +36,5 @@ class CsvGetter:
         if exc_type:
             logger.error(f"An error occurred: {exc_value}")
             return
-        logger.info("Saving CSV file")
+        logger.info(f"Saving CSV file, records: {len(self.df)}")
         self.df.to_csv(self.out_file_path, index=False)
