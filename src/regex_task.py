@@ -42,7 +42,7 @@ def remove_rows_by_regex(
 
         # Apply the mask and reset the index
         new_df = df[mask].reset_index(drop=True)
-        # now it a new ref must save it to the instance
+        # now it's a new ref so must save it to the instance
         getter.df = new_df
         return new_df
 

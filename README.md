@@ -49,3 +49,9 @@ python src/csv_task.py --infile python_home_task_file.csv --out python_home_task
 ```sh
 python src/regex_task.py --infile python_home_task_file.csv --out python_home_task_file_regex.csv
 ```
+
+### Testing
+
+```sh
+PYTHONPATH="./src" pytest -s -v ./tests
+```
