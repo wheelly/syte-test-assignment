@@ -1,5 +1,4 @@
 import logging
-import os
 import pathlib
 from traceback import TracebackException
 from types import TracebackType
@@ -8,6 +7,7 @@ from typing import Optional
 import pandas as pd
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
 
 class CsvGetter:
