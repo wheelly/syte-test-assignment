@@ -5,13 +5,10 @@ import pandas as pd
 
 from csv_getter import CsvGetter
 
-# type=click.Path(exists=True, dir_okay=False, readable=True)
-# type=click.Path(writable=True),
-
 
 @click.command()
-@click.option("--infile", required=True, help="Input file csv")
-@click.option("--out", required=True, help="Output file csv")
+@click.option("--infile", required=True, type=click.Path(exists=True, dir_okay=False, readable=True), help="Input file csv")
+@click.option("--out", required=True, type=click.Path(writable=True), help="Output file csv")
 @click.option("--pattern-eq", type=str, default=r"knit", help="Column to copy from - default 'knit'")
 @click.option("--pattern-not", type=str, default=r"jumpers", help="Column to copy from - default 'jumpers'")
 def main(
@@ -33,12 +30,16 @@ def remove_rows_by_regex(
     with CsvGetter(in_file_path=infile, out_file_path=out) as df:
         eq_re = re.compile(pattern_eq, re.IGNORECASE)
         not_re = re.compile(pattern_not, re.IGNORECASE)
-        for col in df.columns:
-            # find the rows that match the pattern
-            rows_eq = df[col].str.contains(eq_re, regex=True)
-            rows_not = df[col].str.contains(not_re, regex=True)
-            # drop rows that match pattern_eq and do not match pattern_not
-            df = df[~(rows_eq & ~rows_not)]
+
+        # Apply regex search across all columns
+        mask_eq = df.applymap(lambda x: bool(eq_re.search(str(x))) if pd.notnull(x) else False)
+        mask_not = df.applymap(lambda x: bool(not_re.search(str(x))) if pd.notnull(x) else False)
+
+        # Create a boolean mask for rows to keep
+        mask = ~(mask_eq.any(axis=1) & ~mask_not.any(axis=1))
+
+        # Apply the mask and reset the index
+        df = df[mask].reset_index(drop=True)
         return df
 
 
