@@ -16,7 +16,7 @@ def main(
     out: str,
     pattern_eq: str,
     pattern_not: str
-):
+) -> None:
     remove_rows_by_regex(infile, out, pattern_eq, pattern_not)
 
 

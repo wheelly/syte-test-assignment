@@ -83,7 +83,7 @@ from csv_getter import CsvGetter
     ]
 )
 def test_regex_task(mocker: MockerFixture, df_input: pd.DataFrame, df_expected: pd.DataFrame):
-    """Test the remove_rows_by_regex function."""
+    """Tests the remove_rows_by_regex function."""
     mocker.patch.object(CsvGetter, "__enter__", return_value=df_input)
     spy = mocker.spy(regex_task, "remove_rows_by_regex")
     mocker.patch.object(CsvGetter, "__exit__")
